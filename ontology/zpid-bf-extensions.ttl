@@ -21,14 +21,23 @@
    vann:preferredNamespacePrefix "pxp" ;vann:preferredNamespaceUri "https://w3id.org/zpid/ontology/properties/" ;
    dct:title "ZPID/PSYNDEX properties" ;
    #dct:license <...> ;
-   dct:description "New classes and properties that we need to define because there aren't any in BIBFRAME and related we can reuse"@en ;
+   dct:description "New properties that we need to define because there aren't any in BIBFRAME and related we can reuse"@en ;
    dct:issued "2022-07-01" ;
    dct:modified "2022-11-28"^^xsd:date ;
    skos:historyNote "See the commit history for this vocabulary at https://github.com/." ;
    #dct:publisher <...> ;
    #dct:creator <...> ;
-
 .
+
+<https://w3id.org/zpid/ontology/classes>
+   rdf:type owl:Ontology ; #voaf:Vocabulary ;
+   vann:preferredNamespacePrefix "pxc" ;vann:preferredNamespaceUri "https://w3id.org/zpid/ontology/classes/" ;
+   dct:title "ZPID/PSYNDEX classes" ;
+   #dct:license <...> ;
+   dct:description "New classes that we need to define because there aren't any in BIBFRAME and related we can reuse"@en ;
+   dct:issued "2022-07-01" ;
+   dct:modified "2022-11-28"^^xsd:date ;
+   skos:historyNote "See the commit history for this vocabulary at https://github.com/." .
 
 
 ## this is the place for new classes and properties
@@ -170,7 +179,3 @@ pxp:PageCount a owl:Class;
     rdfs:subClassOf bf:Extent;
  #owl:equivalentProperty <http://purl.org/spar/fabio/hasPageCount>.
 .
-
-### define these with our own labels/comments to explain for what we use it!
-# bflc:demographicGroup [a bflc:DemographicGroup; rdfs:label "AGE"].
-# bf:geographicCoverage [a bf:GeographicCoverage; rdfs:label "PLOC"]
