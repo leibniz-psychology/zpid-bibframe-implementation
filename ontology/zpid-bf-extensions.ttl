@@ -1,0 +1,176 @@
+
+@prefix pxp: <https://w3id.org/zpid/ontology/properties/> .
+@prefix pxc: <https://w3id.org/zpid/ontology/classes/> .
+@prefix pxs: <https://w3id.org/zpid/shapes/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix bf: <http://id.loc.gov/ontologies/bibframe/> .
+@prefix bflc: <http://id.loc.gov/ontologies/bflc/> .
+@prefix dblp: <https://dblp.org/rdf/schema#> .
+@prefix schema: <https://schema.org/> .
+@prefix bibo: <http://purl.org/ontology/bibo/>.
+@prefix vann: <http://purl.org/vocab/vann/> .
+
+<https://w3id.org/zpid/ontology/properties>
+   rdf:type owl:Ontology ; #voaf:Vocabulary ;
+   vann:preferredNamespacePrefix "pxp" ;vann:preferredNamespaceUri "https://w3id.org/zpid/ontology/properties/" ;
+   dct:title "ZPID/PSYNDEX properties" ;
+   #dct:license <...> ;
+   dct:description "New classes and properties that we need to define because there aren't any in BIBFRAME and related we can reuse"@en ;
+   dct:issued "2022-07-01" ;
+   dct:modified "2022-11-28"^^xsd:date ;
+   skos:historyNote "See the commit history for this vocabulary at https://github.com/." ;
+   #dct:publisher <...> ;
+   #dct:creator <...> ;
+
+.
+
+
+## this is the place for new classes and properties
+## that we need to define
+## because there aren't any we can reuse.
+
+## For Agents:
+
+## Persons:
+
+## For Publications: (Works and Instances) ##
+
+# --- for Title elements: -----#
+
+pxc:TranslatedTitle a owl:Class;
+    rdfs:subClassOf bf:VariantTitle;
+    rdfs:label "Original title translated into English or German"@en;
+rdfs:description "Title as translated either by the creator, by a ZPID cataloger/indexer or some automated translation service like Deepl. Usually contains subtitle as well; Language is en if original work language is de; if work language is en, the translated title has language en." .
+
+# -- for Abstracts and Plain Language Summaries -- #
+
+pxc:Abstract a owl:Class;
+    rdfs:subClassOf bf:Summary;
+    rdfs:label "Abstract"@en, "Abstract"@de;
+.
+
+pxc:PlainLanguageSummary a owl:Class;
+    rdfs:subClassOf bf:Summary;
+    rdfs:label "Plain Language Summary"@en, "Laienzusammenfassung"@de;
+.
+
+
+# -- for weighted vocabulary terms -- #
+# problem: we want to link the uri directly, not a bnode of either class bf:Topic or pxc:WeightedTopic, but then there is no way to say which class the thing is. 
+# Solution: Always use a bnode, add the uri via schema/owl:sameAs to it.
+
+pxc:WeightedTopic a owl:Class;
+    rdfs:subClassOf bf:Topic;
+    rdfs:label "Weighted Topic"@en, "Gewichtetes Schlagwort"@de;
+    rdfs:comment "A topic that has more weight than others. One that is most essential in describing the work and what it is about."@en;
+.
+
+# subclasses of bf:Classification:
+pxc:SubjectHeading a owl:Class;
+    rdfs:subClassOf bf:Classification;
+    rdfs:label "Psychological Subject Heading Classification"@en, "Psychologische Inhaltsklassifikation"@de;
+.
+
+pxc:ControlledMethod a owl:Class;
+    rdfs:subClassOf bf:Classification;
+    rdfs:label "Controlled Method Classification"@en, "Klassifikation der kontrollierten Methode"@de;
+    rdfs:comment "The scientific study methodology used to create the study described within the work."@en;
+.
+
+# other subclasses about the study population:
+
+pxc:AgeGroup a owl:Class;
+    rdfs:subClassOf bflc:DemographicGroup;
+    rdfs:label "Age Group of study population or of instrument target group"@en, "Altersbereich der Studienpopulation oder der Testzielgruppe"@de; 
+.
+
+pxc:PopulationLocation a owl:Class;
+    rdfs:subClassOf bf:GeographicCoverage;
+    rdfs:label "Population Location"@en, "Ort der Studienpopulation"@de; 
+.
+
+# pxp:seriesEnumeration 
+
+# contributions:
+
+pxp:contributionPosition
+  a rdf:Property ;
+  rdfs:label "contributor position"@en ;
+  rdfs:comment "Position of contributor (within the creator sequence) of the publication, starting with 1. for first author or contributor"@en ;
+  rdfs:domain bf:Contribution ;
+  rdfs:range xsd:integer;
+  owl:equivalentProperty dblp:signatureOrdinal, <http://www.wikidata.org/entity/P478>; rdfs:subPropertyOf schema:position, bf:qualifier.
+  
+# pxp:contributorAffiliation a owl:ObjectProperty; 
+#     owl:equivalentProperty schema:affiliation;
+#     rdfs:Domain bf:Contribution;
+#     rdfs:range bf:Organization;    
+# . 
+# removed: use mads:hasAffiliation instead!
+
+pxc:PsychAuthorsID a owl:Class;   
+    rdfs:label "Psychauthors ID"@en, "PsychAuthors-Kennung";
+    rdfs:comment "Alphanumerical identifier of a psychologist within the PsychAuthors database."@en;
+    rdfs:subClassOf bf:Local; # and via this, grandchild of bf:Identifier
+.
+
+# relationships:
+
+## article in journal:
+# note: may also export a combined version as bf:part "Vol. 3, Issue 11, p. 22-56"
+
+pxp:inIssue a rdf:Property;
+  rdfs:label "published in journal issue"@en ;
+  rdfs:comment "The issue of the journal in which the publication was published."@en ;
+    rdfs:subPropertyOf bf:part, bibo:locator; # bf:part is equivalent to MARC subfield $g eg in field 773; a literal that contains volume, issue and page range of a "hosted item" - which is an article in a journal.
+    owl:equivalentProperty dblp:publishedInJournalVolumeIssue, <http://purl.org/ontology/bibo/issue>, <http://prismstandard.org/namespaces/basic/2.0/issueIdentifier>, schema:issueNumber, <http://www.wikidata.org/entity/P433>;
+    rdfs:domain bflc:Relationship;
+    rdfs:range xsd:string;
+.
+
+pxp:inVolume a rdf:Property;
+  rdfs:label "published in journal volume"@en ;
+  rdfs:comment "The volume of the journal in which the publication was published."@en ;
+    rdfs:subPropertyOf bf:part, bibo:locator; 
+    owl:equivalentProperty dblp:publishedInJournalVolumeIssue, <http://www.wikidata.org/entity/P478>, <http://prismstandard.org/namespaces/basic/2.0/volume>, schema:volumeNumber;
+    rdfs:domain bflc:Relationship;
+    rdfs:range xsd:string;
+.
+
+pxp:pageStart a rdf:Property;
+    rdfs:comment "The page within a journal issue or a book on which an article or chapter begins; the first page of the part."@en;
+    rdfs:subPropertyOf bf:part, bibo:locator;
+    owl:equivalentProperty schema:pageStart, <http://prismstandard.org/namespaces/1.2/basic/startingPage>, bibo:pageStart;
+    rdfs:domain bflc:Relationship;
+    rdfs:range xsd:integer;
+.
+
+pxp:pageEnd a rdf:Property;
+    rdfs:comment "The page within a journal issue or a book on which an article or chapter ends; the last page of the part."@en;
+    rdfs:subPropertyOf bf:part, bibo:locator;
+    owl:equivalentProperty schema:pageEnd, <http://prismstandard.org/namespaces/1.2/basic/endingPage>, bibo:pageEnd;
+    rdfs:domain bflc:Relationship;
+    rdfs:range xsd:integer;
+.
+
+pxc:ArticleNumber a owl:Class;
+    rdfs:label "Article number";
+    rdfs:comment "Alphanumerica identifier of a journal article within that journal. Usually for electronic journal articles where no start or end page is given. Value (the number/identifier) is found in a rdf:value property, as is usual for bf:Identifier subclasses.";
+    rdfs:subClassOf bf:Identifier;
+    .
+
+
+pxp:PageCount a owl:Class;
+    rdfs:subClassOf bf:Extent;
+ #owl:equivalentProperty <http://purl.org/spar/fabio/hasPageCount>.
+.
+
+### define these with our own labels/comments to explain for what we use it!
+# bflc:demographicGroup [a bflc:DemographicGroup; rdfs:label "AGE"].
+# bf:geographicCoverage [a bf:GeographicCoverage; rdfs:label "PLOC"]
