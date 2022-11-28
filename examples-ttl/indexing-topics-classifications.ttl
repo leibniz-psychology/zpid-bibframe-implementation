@@ -1,0 +1,53 @@
+@prefix mads: <http://www.loc.gov/mads/rdf/v1#> .
+@prefix bflc: <http://id.loc.gov/ontologies/bflc/> .
+@prefix bf: <http://id.loc.gov/ontologies/bibframe/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix datatypes: <http://id.loc.gov/datatypes/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+@prefix schema: <https://schema.org/> .
+@prefix pxp: <https://w3id.org/zpid/properties/> .
+@prefix pxc: <https://w3id.org/zpid/classes/> .
+
+
+## about-ness indexing/keywords/classifications (psych specific):
+
+<https://w3id.org/zpid/pub/work/ttr-swib22talk> a bf:Work;
+    bf:subject [a bf:Topic, pxc:WeightedTopic, skos:Concept; # # topic, weighted
+        owl:sameAs <https://w3id.org/zpid/vocabs/terms/35365>;
+        rdfs:label "Ontologies"@en, "Ontologien"@de;
+        bf:source <https://w3id.org/zpid/vocabs/terms>;
+    ];
+    bf:subject [a bf:Topic, skos:Concept; # a non-weighted topic
+        owl:sameAs <https://w3id.org/zpid/vocabs/terms/60135>;
+        rdfs:label "Semantic Networks"@en, "Semantische Netzwerke"@de;
+        bf:source <https://w3id.org/zpid/vocabs/terms>;
+    ];
+    # PSYNDEX subject heading classification
+    bf:classification [ a bf:Classification, pxc:SubjectHeading, skos:Concept;
+        rdfs:label "Professional Psychological & Health Personnel Issues"@en;
+        bf:code "3400";
+        owl:sameAs <https://w3id.org/zpid/vocabs/class/3400>;
+        bf:source <https://w3id.org/zpid/vocabs/class>;
+    ];
+    # study type/methodology
+    bf:classification [a bf:Classification, pxc:ControlledMethod, skos:Concept; 
+        rdfs:label "illustrative case report"@en;
+        bf:code "10310";
+        owl:sameAs <https://w3id.org/zpid/vocabs/methods/10310>;
+        bf:source <https://w3id.org/zpid/vocabs/methods>;
+    ];
+# age group study is about/sample was from:
+    bflc:demographicGroup [a bflc:DemographicGroup, pxc:AgeGroup, skos:Concept;
+        rdfs:label "Adulthood"@en, "Erwachsenenalter"@de;
+        owl:sameAs <https://w3id.org/zpid/vocabs/age/adulthood>;
+        bf:source <https://w3id.org/zpid/vocabs/age/AgeGroups>; 
+    ];
+    # population location: 
+    bf:geographicCoverage [a bf:GeographicCoverage, pxc:PopulationLocation, skos:Concept;
+        rdfs:label "Germany"@en;
+        owl:sameAs <countries/ger>;
+    ];
+
+.

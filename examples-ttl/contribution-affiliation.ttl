@@ -1,0 +1,39 @@
+@prefix mads: <http://www.loc.gov/mads/rdf/v1#> .
+@prefix bflc: <http://id.loc.gov/ontologies/bflc/> .
+@prefix bf: <http://id.loc.gov/ontologies/bibframe/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix datatypes: <http://id.loc.gov/datatypes/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+@prefix schema: <https://schema.org/> .
+@prefix pxp: <https://w3id.org/zpid/properties/> .
+@prefix pxc: <https://w3id.org/zpid/classes/> .
+
+
+<https://w3id.org/zpid/pub/work/ttr-swib22talk> a bf:Work;
+    bf:contribution [a bf:Contribution, bflc:PrimaryContribution; 
+        bf:agent [a bf:Person, schema:Person; 
+            rdfs:label "Trillitzsch, Tina"; # name when creating work
+            schema:givenName "Tina"; schema:familyName "Trillitzsch";
+            owl:sameAs <https://w3id.org/zpid/person/tt_0000001>, <https://orcid.org/0000-0001-7239-4844>; # authority uris of person (local, orcid)
+            bf:identifiedBy [a bf:Local, pxc:PsychAuthorsID; rdf:value "p01979TTR"; #legacy authority ID
+            ];
+            mads:hasAffiliation [a mads:Affiliation;
+                mads:organization [a bf:Organization; 
+                    rdfs:label "Leibniz Institute of Psychology (ZPID); Digital Research Development Services"; # org name when work was created
+                    owl:sameAs <https://w3id.org/zpid/org/zpid_0000001>, <https://ror.org/0165gz615>; # authority uris of org (local, ror)
+                    ];
+                mads:hasAffiliationAddress [a mads:Address;
+                    mads:country [a mads:Country, bf:Place;
+                        rdfs:label "Germany";
+                        owl:sameAs <https://w3id.org/zpid/place/country/ger>;
+                    ]
+                ];
+                mads:email <mailto:ttr@leibniz-psychology.org>; # correspondence author email
+            ];
+        ];
+        bf:role <http://id.loc.gov/vocabulary/relators/aut>;
+        pxp:contributionPosition 1; bf:qualifier "first"; # first author in sequence: our own subproperty of bf:qualifier & schema:position (also: middle, last)
+    ];
+.
