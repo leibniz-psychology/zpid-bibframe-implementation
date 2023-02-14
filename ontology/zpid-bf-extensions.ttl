@@ -179,3 +179,14 @@ pxp:PageCount a owl:Class;
     rdfs:subClassOf bf:Extent;
  #owl:equivalentProperty <http://purl.org/spar/fabio/hasPageCount>.
 .
+
+# --- Properties describing is-ness:
+
+pxp:IssuanceType a rdf:Property;
+    rdfs:label "Erscheinungsform"@de, "Issuance Type"@en;
+    skos:altLabel "Publication type"@en, "Publikationstyp"@de;
+    rdfs:comment "Describes the type of publication an instance was issued as, including its bibliographic level (former BE field in PSYNDEX) = whether it is a standalone thing or a dependent component part. Examples: Journal Article, Edited Book"@en;
+    rdfs:domain bf:Instance;
+    rdfs:range skos:Concept;
+    . 
+
