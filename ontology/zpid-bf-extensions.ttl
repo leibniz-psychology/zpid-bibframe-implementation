@@ -190,3 +190,9 @@ pxp:IssuanceType a rdf:Property;
     rdfs:range skos:Concept;
     . 
 
+pxp:mediaCarrier a rdf:Property;
+    rdfs:label "Medien-/Datenträgertyp"@de, "Media and Carrier Type"@en;
+    rdfs:comment "Describes an instance's combined medium and carrier type. Close approximation of former field in PSYNDEX"@en;
+    rdfs:domain bf:Instance;
+    rdfs:range skos:Concept;
+. 
