@@ -153,6 +153,7 @@ pxp:inVolume a rdf:Property;
 .
 
 pxp:pageStart a rdf:Property;
+    rdfs:label "first page"@en, "erste Seite"@de;
     rdfs:comment "The page within a journal issue or a book on which an article or chapter begins; the first page of the part."@en;
     rdfs:subPropertyOf bf:part, bibo:locator;
     owl:equivalentProperty schema:pageStart, <http://prismstandard.org/namespaces/1.2/basic/startingPage>, bibo:pageStart;
@@ -161,6 +162,7 @@ pxp:pageStart a rdf:Property;
 .
 
 pxp:pageEnd a rdf:Property;
+    rdfs:label "last page"@en, "letzte Seite"@de;
     rdfs:comment "The page within a journal issue or a book on which an article or chapter ends; the last page of the part."@en;
     rdfs:subPropertyOf bf:part, bibo:locator;
     owl:equivalentProperty schema:pageEnd, <http://prismstandard.org/namespaces/1.2/basic/endingPage>, bibo:pageEnd;
@@ -169,11 +171,10 @@ pxp:pageEnd a rdf:Property;
 .
 
 pxc:ArticleNumber a owl:Class;
-    rdfs:label "Article number";
+    rdfs:label "Article number"@en, "Artikelnummer"@de;
     rdfs:comment "Alphanumerica identifier of a journal article within that journal. Usually for electronic journal articles where no start or end page is given. Value (the number/identifier) is found in a rdf:value property, as is usual for bf:Identifier subclasses.";
     rdfs:subClassOf bf:Identifier;
     .
-
 
 pxp:PageCount a owl:Class;
     rdfs:subClassOf bf:Extent;
