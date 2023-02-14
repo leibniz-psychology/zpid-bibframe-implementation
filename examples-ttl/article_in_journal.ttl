@@ -1,0 +1,119 @@
+@prefix mads: <http://www.loc.gov/mads/rdf/v1#> .
+@prefix bflc: <http://id.loc.gov/ontologies/bflc/> .
+@prefix bf: <http://id.loc.gov/ontologies/bibframe/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix datatypes: <http://id.loc.gov/datatypes/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+@prefix schema: <https://schema.org/> .
+@prefix pxp: <https://w3id.org/zpid/properties/> .
+@prefix pxc: <https://w3id.org/zpid/classes/> .
+
+<https://w3id.org/zpid/pub/work/0369352> a bf:Work, bf:Text; 
+    bf:hasInstance <https://w3id.org/zpid/pub/instance/0369352#1>, <https://w3id.org/zpid/pub/instance/0369352#2>;
+    bf:content <http://rdaregistry.info/termList/RDAContentType/1020>; # "text" - we infer the bf:Work subclass from this, too!
+    bf:genreForm "Scholarly Article/Paper"; # will be a skos:Concept in the future
+    bf:contribution []; # details: see example "contribution_affiliation.ttl"
+    bf:summary 
+        [a bf:Summary, pxc:Abstract;
+         rdfs:label "Background: Many interventions on epistemic beliefs"@en;
+         bf:source [a bf:Source; rdfs:label "Original"];
+         # rights/note! we want to use a vocab for this, so we need to reuse license  from dct or schema.org? 
+         schema:license <uri-of-license>; # use our vocab, but if "no abstract" is picked, export as bf:note!, and if nothing is selected?
+        ],
+        [a bf:Summary, pxc:Abstract;
+         rdfs:label "Hintergrund: Viele Interventionen zu epistemischen Überzeugungen....."@de;
+         bf:source [a bf:Source; rdfs:label "DeepL"];
+        ];
+    # subjects and classifications, study types, population etc.: see example "indexing-topics-classifications.ttl"
+    
+.
+
+# print article in print version of journal
+<https://w3id.org/zpid/pub/instance/0369352#1> a bf:Instance, bf:Print;
+    bf:title 
+        [a bf:Title; 
+            bf:mainTitle "Disentangling the process of epistemic change"@en;
+            bf:subtitle "The role of epistemic volition"@en;
+            rdfs:label "concatenated form of maintitle: subtitle"@en;
+        ],
+        [a pxc:TranslatedTitle;
+            rdfs:label "Den Prozess des epistemischen Wandels entwirren: Die Rolle des epistemischen Willens."@de;
+            bf:source [a bf:Source; rdfs:label "DeepL"];
+        ];  
+        # our own combined media and carrier type vocab:
+        pxp:mediaCarrier <https://w3id.org/zpid/vocabs/mediacarrier/print>; # "print" from this we infer the following (and Instance subclass): 
+        bf:media <http://rdaregistry.info/termList/RDAMediaType/1007>; # unmediated
+        bf:carrier <http://rdaregistry.info/termList/RDACarrierType/1049>; # volume
+
+        # our own combined issuance/doctype vocab:
+        pxp:issuanceType <https://w3id.org/zpid/vocabs/issuancetype/journal_article>; # from which we infer:
+        bf:issuance <http://id.loc.gov/vocabulary/issuance/mono>, <http://rdaregistry.info/termList/ModeIssue/1001>; # monograph, single unit
+        
+        # link to journal and qualified info about where inside the journal the article is situated:
+        bflc:relationship [
+            a bflc:Relationship;
+            bflc:relation <https://w3id.org/zpid/vocabs/relations/is_article_in_journal>; # can be inferred from pubtype (or do we need an explicit field in PY2?)
+            pxp:inVolume "91"; # taken from field JBD
+            pxp:inIssue "1"; # taken from field JHFT
+            pxp:pageStart "1"; # taken from combined record (split field PAGE)
+            pxp:pageEnd "26";
+            bf:inSeries [
+                a bf:Instance, bf:Print;
+                bf:title [a bf:Title; bf:mainTitle "British Journal of Educational Psychology"]; # autopsy principle: take the journal title as given on article
+                bf:issuanceType <https://w3id.org/zpid/vocabs/issuancetype/journal>;
+                owl:sameAs <https://w3id.org/zpid/periodicals/instance/0007-0998>; # link to our authority version of journal on file
+                bf:instanceOf [
+                    a bf:Work, bf:Serial;
+                    bf:identifiedBy [a bf:Issn; rdf:value "0007-0998"];
+                ];
+            ];
+        ];
+        bf:otherPhysicalFormat <https://w3id.org/zpid/pub/instance/0369352#2>; # link to electronic version instance of same article
+.
+
+# Electronic instance of the article:
+
+<https://w3id.org/zpid/pub/instance/0369352#2> a bf:Instance, bf:Electronic;
+     bf:title 
+        [a bf:Title; 
+            bf:mainTitle "Disentangling the process of epistemic change";
+            bf:subtitle "The role of epistemic volition"@en;
+        ],
+        [a pxc:TranslatedTitle;
+            rdfs:label "Den Prozess des epistemischen Wandels entwirren: Die Rolle des epistemischen Willens."@de;
+            bf:source [a bf:Source; rdfs:label "DeepL"];
+        ];  
+        # our own combined media and carrier type vocab:
+        pxp:mediaCarrier <https://w3id.org/zpid/vocabs/mediacarrier/online>; # "online"; from this we infer the following (and Instance subclass): 
+        bf:media <http://rdaregistry.info/termList/RDAMediaType/1003>; # computer
+        bf:carrier <http://rdaregistry.info/termList/RDACarrierType/1018>; # online resource
+
+        # our own combined issuance/doctype vocab:
+        pxp:issuanceType <https://w3id.org/zpid/vocabs/issuancetype/journal_article>; # from which we infer:
+        bf:issuance <http://id.loc.gov/vocabulary/issuance/mono>, <http://rdaregistry.info/termList/ModeIssue/1001>; # monograph, single unit
+        
+        # DOI (which only electronic versions have):
+        bf:identifiedBy [a bf:Doi; rdf:value "10.1111/bjep.12372"]; owl:sameAs <https://doi.org/10.1111/bjep.12372>;
+
+        # link to journal and qualified info about where inside the journal the article is situated:
+        bflc:relationship [
+            a bflc:Relationship;
+            bflc:relation <https://w3id.org/zpid/vocabs/relations/is_article_in_journal>; # can be inferred from pubtype (or do we need an explicit field in PY2?)
+            pxp:inVolume "91"; # taken from field JBD
+            pxp:inIssue "1"; # taken from field JHFT
+            bf:identifiedBy [a pxc:ArticleNumber; rdfs:label "art no, if given"];# taken from combined record (split field PAGE)
+            bf:inSeries [
+                a bf:Instance, bf:Electronic;
+                bf:title [a bf:Title; bf:mainTitle "British Journal of Educational Psychology"]; # autopsy principle: take the journal title as given on article
+                bf:pubType <https://w3id.org/zpid/vocabs/issuancetype/journal>;
+                #owl:sameAs <https://w3id.org/zpid/periodicals/instance/insert if field EISSN filled>; # link to our authority version of journal on file
+                # bf:instanceOf [
+                #     a bf:Work, bf:Serial;
+                #     bf:identifiedBy [a bf:Issn; rdf:value "insert if field EISSN filled"];
+                # ];
+            ];
+        ];
+
+.
