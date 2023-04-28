@@ -1,0 +1,196 @@
+@prefix mads: <http://www.loc.gov/mads/rdf/v1#> .
+@prefix bflc: <http://id.loc.gov/ontologies/bflc/> .
+@prefix bf: <http://id.loc.gov/ontologies/bibframe/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix datatypes: <http://id.loc.gov/datatypes/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+@prefix schema: <https://schema.org/> .
+@prefix pxp: <https://w3id.org/zpid/properties/> .
+@prefix pxc: <https://w3id.org/zpid/classes/> .
+@prefix relations: <https://w3id.org/zpid/vocabs/relations> .
+@prefix content: <https://w3id.org/zpid/vocabs/contenttypes> .
+@prefix genres: <https://w3id.org/zpid/vocabs/genres> .
+
+## hat data und code in 2 separaten Supplements:
+<https://w3id.org/zpid/pub/work/0001> a bf:Work; 
+    bflc:relationship 
+    [
+        a bflc:Relationship;
+        bflc:relation relations:hasResearchData;
+        bf:supplement
+        [
+            a bf:Work, bf:Dataset; 
+            bf:genreForm genres:researchData; bf:content content:dataset;
+            bf:hasInstance 
+            [
+                a bf:Instance;
+                bf:electronicLocator <https://osf.io/data001>;
+                bf:identifier [a bf:Identifier, bf:Doi; rdf:value "10.123data001"]
+                # "computer" from rda media types:
+                bf:media <http://rdvocab.info/termList/RDAMediaType/1003>;
+                # "online resource" from rda vocabulary for carrier types:
+                bf:carrier <http://rdvocab.info/termList/RDACarrierType/1018>;
+                # combined custom pxp:mediaType
+                pxp:mediaType mediatypes:OnlineResource;
+            ]
+    ]
+    ],
+    [ # Beziehung zu Analysecode (Werk - für content type und genreform, Instanz für Links und Dois)
+        a bflc:Relationship;
+        bflc:relation relations:hasResearchData;
+        bf:supplement
+        [
+            a bf:Work, bf:Multimedia; 
+            bf:genreform genres:analysisCode; bf:content content:software;
+                bf:hasInstance 
+                [
+                    a bf:Instance;
+                    bf:electronicLocator <https://osf.io/code001>;
+                    bf:identifier [a bf:Identifier, bf:Doi; rdf:value "10.123code001"]
+                    # add bf:media "computer" from rda media types
+                    bf:media <http://rdvocab.info/termList/RDAMediaType/1003>;
+                    # bf:carrier "online resource" from rda vocabulary
+                    bf:carrier <http://rdvocab.info/termList/RDACarrierType/1018>;
+                    # add combined custom pxp:mediaType
+                    pxp:mediaType mediatypes:OnlineResource;
+                ] 
+            ] 
+    ]
+.
+
+# data AND code zusammen in einem Supplement, plus ein weiteres reines Data-Supplement
+<https://w3id.org/zpid/pub/work/0002> a bf:Work; 
+    bflc:relationship 
+    [ # Beziehung zu FD-Supplement, das sowohl Forschungsdaten als auch Code enthält:
+        a bflc:Relationship;
+        bflc:relation relations:hasResearchData;
+        bf:supplement
+        [
+            a bf:Work, bf:Dataset, bf:Multimedia; 
+            bf:genreForm genres:researchData, genres:analysisCode; bf:content content:dataset, content:software;
+            bf:hasInstance 
+            [
+                a bf:Instance;
+                bf:electronicLocator <https://osf.io/dataCode002>;
+                bf:identifier [a bf:Identifier, bf:Doi; rdf:value "10.123dataCode002"];
+                # add media "computer" and carrier "online resource" from rda vocabulary
+                bf:media <http://rdvocab.info/termList/RDAMediaType/1003>;
+                bf:carrier <http://rdvocab.info/termList/RDACarrierType/1018>;
+                # add combined custom pxp:mediaType
+                pxp:mediaType mediatypes:OnlineResource;
+            ]
+        ]
+    ],
+    [ # Beziehung zu FD-Supplement, das nur Forschungsdaten enthält:
+        a bflc:Relationship;
+        bflc:relation relations:hasResearchData;
+        bf:supplement
+        [
+            a bf:Work, bf:Multimedia; 
+            bf:genreForm genres:analysisCode; bf:content content:software;
+            bf:hasInstance 
+            [
+                a bf:Instance;
+                bf:electronicLocator <https://osf.io/data002>;
+                bf:identifier [a bf:Identifier, bf:Doi; rdf:value "10.123data002"];
+                # add bf:media "computer" from rda media types
+                bf:media <http://rdvocab.info/termList/RDAMediaType/1003>;
+                # bf:carrier "online resource" from rda vocabulary
+                bf:carrier <http://rdvocab.info/termList/RDACarrierType/1018>;
+                # add a new property pxp:mediaType and use vocabulary mediatypes:, specifically Online Resource
+                pxp:mediaType mediatypes:OnlineResource;
+            ]
+        ] 
+    ]
+.
+
+# code NOT data (nur ein Supplement, Typ Code)
+<https://w3id.org/zpid/pub/work/0003> a bf:Work; 
+    bflc:relationship 
+    [
+        a bflc:Relationship;
+        bflc:relation relations:hasResearchData;
+        bf:supplement
+        [
+            a bf:Work, bf:Multimedia; 
+            bf:genreForm genres:analysisCode; bf:content content:software;
+            bf:hasInstance 
+            [
+                a bf:Instance;
+                bf:electronicLocator <https://osf.io/code003>;
+                bf:identifier [a bf:Identifier, bf:Doi; rdf:value "10.123code003"];
+                # add bf:media "computer" from rda media types
+                bf:media <http://rdvocab.info/termList/RDAMediaType/1003>;
+                # bf:carrier "online resource" from rda vocabulary
+                bf:carrier <http://rdvocab.info/termList/RDACarrierType/1018>;
+                # add combined custom pxp:mediaType
+                pxp:mediaType mediatypes:OnlineResource;
+            ]
+        ] 
+    ]
+.
+
+# Data NOT Code (nur ein Suppl., Typ Dataset)
+<https://w3id.org/zpid/pub/work/0004> a bf:Work; 
+    bflc:relationship 
+    [
+        a bflc:Relationship;
+        bflc:relation relations:hasResearchData;
+        bf:supplement
+        [
+            a bf:Work, bf:Dataset; 
+            bf:genreForm genres:researchData; bf:content content:dataset;
+            # move locator and doi to instance
+            bf:hasInstance 
+            [
+                a bf:Instance;
+                bf:electronicLocator <https://osf.io/data004>;
+                bf:identifier [a bf:Identifier, bf:Doi; rdf:value "10.123data004"];
+                # add bf:media "computer" from rda media types
+                bf:media <http://rdvocab.info/termList/RDAMediaType/1003>;
+                # bf:carrier "online resource" from rda vocabulary
+                bf:carrier <http://rdvocab.info/termList/RDACarrierType/1018>;
+                # add combined custom pxp:mediaType
+                pxp:mediaType mediatypes:OnlineResource;
+            ]              
+        ] 
+    ]
+.
+
+# gar kein supplement, aber andere relation: replikation eines bestimmten Datasets
+<https://w3id.org/zpid/pub/work/0005> a bf:Work; 
+        bflc:relationship [
+                a bflc:Relationship;
+                bflc:relation relations:isReplicationOf;
+                bf:dataSource 
+                [
+                        a bf:Work, bf:Text; 
+                        bf:genreForm genres:researchData; bf:content content:dataset;
+                        # move locator and doi to instance
+                        bf:hasInstance [
+                                a bf:Instance;
+                                bf:electronicLocator <https://osf.io/replicatedStudy>;
+                                bf:identifier [a bf:Identifier, bf:Doi; rdf:value "10.123replicated"];
+                                # add bf:media "computer" from rda media types
+                                bf:media <http://rdvocab.info/termList/RDAMediaType/1003>;
+                                # bf:carrier "online resource" from rda vocabulary
+                                bf:carrier <http://rdvocab.info/termList/RDACarrierType/1018>;
+                                # add combined custom pxp:mediaType
+                                pxp:mediaType mediatypes:OnlineResource;
+                        ]
+                ] # ist Replikation dieser Daten
+        ]
+.
+     
+
+
+
+## - [x] data AND code in verschiedenen Supplements
+## - [x] data AND code zusammen in einem Supplement, plus ein reines Data-Supplement
+## - [x] data NOT code (nur ein Supplement, Typ Dataset)
+## - [x] code NOT data (nur ein Suppl., Typ Code)
+## - [x] gar kein Supplement, aber andere relation...
+## - [x] move locator and doi to instance
+## - [ ] add "is restricted"
