@@ -1,0 +1,93 @@
+@prefix mads: <http://www.loc.gov/mads/rdf/v1#> .
+@prefix bflc: <http://id.loc.gov/ontologies/bflc/> .
+@prefix bf: <http://id.loc.gov/ontologies/bibframe/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix datatypes: <http://id.loc.gov/datatypes/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+@prefix schema: <https://schema.org/> .
+@prefix pxp: <https://w3id.org/zpid/properties/> .
+@prefix pxc: <https://w3id.org/zpid/classes/> .
+prefix pmt: <https://w3id.org/zpid/vocabs/psyndex-mediatypes/>
+prefix pit: <https://w3id.org/zpid/vocabs/psyndex-issuancetypes/>
+
+
+# this book also has info about an original version (publication info is represented using "simple" 
+# literal versions of place, agent and date properties from bflc).
+
+work:0229046 a bf:Work , bf:Text ;
+	bf:content rdaco:1020 ;
+	bf:language lang:de ;
+	bf:contribution [...] ;
+	bf:summary [...] ;
+	bf:genreForm genres:Handbook;
+	bf:hasInstance instance:0229046 ;
+	bflc:relationship [
+		a bflc:Relationship;
+		bflc:relation relations:hasTranslation;
+		bf:translationOf 
+		[
+			a bf:Work;
+			bf:language lang:nl; 
+			bf:hasInstance 
+			[
+				bf:title 
+				[
+					a bf:Title;
+					rdfs:label "Psychische stoornissen, gedragsproblemen en verstandelijke handicap. Een integratieve benadering voor kinderen en volwassenen"@nl;
+				];
+				bf:editionStatement "3., bearb. Aufl.";
+				bf:provisionActivity 
+				[
+					bf:Publication;
+					bflc:simpleDate "2008";
+					bflc:simplePlace "Assen";
+					bflc:simpleAgent "Van Gorcum";
+				];
+			];
+		];
+.
+
+# These are the infos about the German translation's published print instance
+instance:0229046 a bf:Instance ;
+	pxp:issuanceType issuances:AuthoredBook;
+	pxp:mediaCarrier pmt:Print;
+	bf:title 
+	[
+		a bf:Title;
+		rdfs:label "Psychische Störungen, Verhaltensprobleme und intellektuelle Behinderung. Ein integrativer Ansatz für Kinder und Erwachsene"@de;
+		bf:mainTitle "Psychische Störungen, Verhaltensprobleme und intellektuelle Behinderung"@de;
+		bf:subtitle "Ein integrativer Ansatz für Kinder und Erwachsene"@de;
+	],
+	[
+		a bf:Title, pxc:TranslatedTitle;
+		rdfs:label "Mental disorders and behavior problems in persons with intellectual handicap. An integrative approach for children and adults"@en;
+		bf:varianttype "translated";
+	];
+	bf:identifiedBy 
+	[
+		a bf:Identifier, bf:Isbn;
+		rdf:value "978-3-8017-2155-8";
+	];
+	bf:provisionActivity 
+	[
+		a bf:Publication;
+		bflc:simpleDate "2010";
+		bf:date "2010"^^xsd:gYear;
+		bflc:simplePlace "Göttingen";
+		bf:place 
+		[
+			a bf:Place;
+			rdfs:label "Göttingen";
+			bf:identifiedBy [a bf:Identifier, locid:geonames; rdf:value "2918632"; ];
+		];
+		bflc:simpleAgent "Hogrefe";
+		bf:agent 
+		[
+			a bf:Organization;
+			rdfs:label "Hogrefe";
+			bf:identifiedBy [a bf:Local, pxc:ZpidCorporateBodyId; rdf:value "0000001"; ];
+		];
+	];
+.
