@@ -9,29 +9,53 @@
 @prefix schema: <https://schema.org/> .
 @prefix pxp: <https://w3id.org/zpid/properties/> .
 @prefix pxc: <https://w3id.org/zpid/classes/> .
+@prefix locid: <http://id.loc.gov/vocabulary/identifiers/>
 
 
 <https://w3id.org/zpid/pub/work/ttr-swib22talk> a bf:Work;
-    bf:contribution [a bf:Contribution, bflc:PrimaryContribution; 
-        bf:agent [a bf:Person, schema:Person; 
+    bf:contribution 
+    [
+        # the Bibframe Contribution includes, as usual, an agent and their role,
+        # but is supplemented with an Affiliation (in the context of that work/while it was written),
+        # and a position in the author sequence.
+        a bf:Contribution, bflc:PrimaryContribution; 
+        bf:agent 
+        [
+            a bf:Person, schema:Person; 
             rdfs:label "Trillitzsch, Tina"; # name when creating work
             schema:givenName "Tina"; schema:familyName "Trillitzsch";
             owl:sameAs <https://w3id.org/zpid/person/tt_0000001>, <https://orcid.org/0000-0001-7239-4844>; # authority uris of person (local, orcid)
             bf:identifiedBy [a bf:Local, pxc:PsychAuthorsID; rdf:value "p01979TTR"; #legacy authority ID
             ];
-            mads:hasAffiliation [a mads:Affiliation;
-                mads:organization [a bf:Organization; 
-                    rdfs:label "Leibniz Institute of Psychology (ZPID); Digital Research Development Services"; # org name when work was created
-                    owl:sameAs <https://w3id.org/zpid/org/zpid_0000001>, <https://ror.org/0165gz615>; # authority uris of org (local, ror)
-                    ];
-                mads:hasAffiliationAddress [a mads:Address;
-                    mads:country [a mads:Country, bf:Place;
-                        rdfs:label "Germany";
-                        owl:sameAs <https://w3id.org/zpid/place/country/ger>;
-                    ]
-                ];
-                mads:email <mailto:ttr@leibniz-psychology.org>; # correspondence author email
+            bf:identifiedBy [a bf:Identifier, locid:orcid; rdf:value "0000-0001-7239-4844"; # ORCID 
             ];
+        ]
+        # we use a model inspired by Option C in Osma Suominen'a suggestion for https://github.com/dcmi/dc-srap/issues/3
+        # adding the Affiliation into the Contribution, separate from the agent itself, since the affiliation
+        # is described in the context of this work, not not as a statement about the person's
+        # current affiliation:
+        mads:hasAffiliation [
+            a mads:Affiliation;
+            # Affiliation blank node has info about the affiliation org (including persistent identifiers),
+            # the address (country with geonames identifier),
+            # and the person's email while affiliated there.
+            mads:organization [
+                a bf:Organization; 
+                rdfs:label "Leibniz Institute of Psychology (ZPID); Digital Research Development Services"; # org name when work was created
+                owl:sameAs <https://w3id.org/zpid/org/zpid_0000001>, <https://ror.org/0165gz615>; # authority uris of org (local, ror)
+                # internal id and ror id as literal identifiers:
+                bf:identifiedBy [a bf:Local, pxc:ZpidCorporateBodyId; rdf:value "0000001"; ];
+                bf:identifiedBy [a bf:Identifier; locid:ror; rdf:value "0165gz615"; ];
+            ];
+            mads:hasAffiliationAddress [a mads:Address;
+                mads:country [
+                    a mads:Country, bf:Place;
+                    rdfs:label "Germany";
+                    bf:identifiedBy [a bf:Identifier, locid:geonames; rdf:value "2921044"; ];
+                    owl:sameAs <https://w3id.org/zpid/place/country/ger>;
+                ]
+            ];
+            mads:email <mailto:ttr@leibniz-psychology.org>; # correspondence author email
         ];
         bf:role <http://id.loc.gov/vocabulary/relators/aut>;
         pxp:contributionPosition 1; bf:qualifier "first"; # first author in sequence: our own subproperty of bf:qualifier & schema:position (also: middle, last)
