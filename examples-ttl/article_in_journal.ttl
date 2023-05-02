@@ -9,15 +9,18 @@
 @prefix schema: <https://schema.org/> .
 @prefix pxp: <https://w3id.org/zpid/properties/> .
 @prefix pxc: <https://w3id.org/zpid/classes/> .
-prefix pmt: <https://w3id.org/zpid/vocabs/psyndex-mediatypes/>
-prefix pit: <https://w3id.org/zpid/vocabs/psyndex-issuancetypes/>
-
+prefix pmt: <https://w3id.org/zpid/vocabs/psyndex-mediatypes/> .
+prefix pit: <https://w3id.org/zpid/vocabs/psyndex-issuancetypes/> .
+@prefix genres: <https://w3id.org/zpid/vocabs/genres> .
+@prefix languages: <http://id.loc.gov/vocabulary/languages/> .
 
 <https://w3id.org/zpid/pub/work/0369352> a bf:Work, bf:Text; 
+    bf:title [a bf:Title; bf:mainTitle "Disentangling the process of epistemic change"@en;]; # "preferred title of the work" - title of instance without subtitle - unless it is a translation
     bf:hasInstance <https://w3id.org/zpid/pub/instance/0369352#1>, <https://w3id.org/zpid/pub/instance/0369352#2>;
     bf:content <http://rdaregistry.info/termList/RDAContentType/1020>; # "text" - we infer the bf:Work subclass from this, too!
-    bf:genreForm "Scholarly Article/Paper"; # will be a skos:Concept in the future
+    bf:genreForm genres:ScholarlyPaper;
     bf:contribution []; # details: see example "contribution_affiliation.ttl"
+    bf:language languages:eng ;
     bf:summary 
         [
             a bf:Summary, pxc:Abstract;
@@ -38,8 +41,31 @@ prefix pit: <https://w3id.org/zpid/vocabs/psyndex-issuancetypes/>
                 bflc:metadataLicensor   "DeepL" ; # source of (translated) abstract - original = author, journal etc.
             ]
         ];
+    # we sometimes have plain language summaries of meta-analyses:
+    bf:summary 
+    [
+        a bf:Summary, pxc:PlainLanguageSummary; rdfs:label "Kernaussage ..."@de;
+        bf:adminMetadata  
+        [ 
+            a bf:AdminMetadata ;
+            bflc:metadataLicensor   "ZPID" ; # source of plain language summary. Could also be same as article itself "Original";
+        ]
+    ];
+    # a link to another, longer work that summarizes this article in plain language:
+    bflc:relationship [
+        a bflc:Relationship; 
+        bf:relatedTo 
+        [
+            a bf:Work;
+            bf:hasInstance 
+            [
+                a bf:Instance; 
+                bf:identifiedBy [a bf:Identifier, bf:Doi; rdf:value "10.xxxxx";]
+            ]
+        ];
+        bflc:relation relations:isSummarizedInPlainLanguageBy;
+    ];
     # subjects and classifications, study types, population etc.: see example "indexing-topics-classifications.ttl"
-    
 .
 
 # print article in print version of journal
@@ -72,7 +98,7 @@ prefix pit: <https://w3id.org/zpid/vocabs/psyndex-issuancetypes/>
             pxp:inIssue "1"; # taken from field JHFT
             pxp:pageStart "1"; # taken from combined record (split field PAGE)
             pxp:pageEnd "26";
-            bf:inSeries [
+            bf:hasSeries [
                 a bf:Instance, bf:Print;
                 bf:title [a bf:Title; bf:mainTitle "British Journal of Educational Psychology"]; # autopsy principle: take the journal title as given on article
                 bf:issuanceType pit:Journal;
@@ -117,7 +143,7 @@ prefix pit: <https://w3id.org/zpid/vocabs/psyndex-issuancetypes/>
             pxp:inVolume "91"; # taken from field JBD
             pxp:inIssue "1"; # taken from field JHFT
             bf:identifiedBy [a pxc:ArticleNumber; rdfs:label "art no, if given"];# taken from combined record (split field PAGE)
-            bf:inSeries [
+            bf:hasSeries [
                 a bf:Instance, bf:Electronic;
                 bf:title [a bf:Title; bf:mainTitle "British Journal of Educational Psychology"]; # autopsy principle: take the journal title as given on article
                 pxp:issuanceType pit:Journal;
