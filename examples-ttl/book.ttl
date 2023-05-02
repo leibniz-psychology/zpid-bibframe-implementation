@@ -9,27 +9,45 @@
 @prefix schema: <https://schema.org/> .
 @prefix pxp: <https://w3id.org/zpid/properties/> .
 @prefix pxc: <https://w3id.org/zpid/classes/> .
-prefix pmt: <https://w3id.org/zpid/vocabs/psyndex-mediatypes/>
-prefix pit: <https://w3id.org/zpid/vocabs/psyndex-issuancetypes/>
+prefix pmt: <https://w3id.org/zpid/vocabs/psyndex-mediatypes/> . 
+prefix pit: <https://w3id.org/zpid/vocabs/psyndex-issuancetypes/> .
+@prefix genres: <https://w3id.org/zpid/vocabs/genres> .
+@prefix languages: <http://id.loc.gov/vocabulary/languages/> .
 
 
 # this book also has info about an original version (publication info is represented using "simple" 
 # literal versions of place, agent and date properties from bflc).
+# see this book at https://d-nb.info/1002790794
 
 work:0229046 a bf:Work , bf:Text ;
+	# Work Title in general: according to https://guides.loc.gov/c.php?g=1170551&p=8592108&preview=003264c97f504caf990125066b248e24 "This information is transcribed from the resource itself. 
+	# Preferred Title for Work consists of the main title of the work without subtitle information and end punctuation. 
+	# Subtitle information will be transcribed in the Instance description."
+	## We will just copy the mainTitle of the instance into the work title as the "preferred title" 
+	# (during export; no need for catalogers to write it down twice).
+	# However, for translated works, the title of the original (here, Dutch) is used as "preferred title of work": 
+	# (but we will still add a relationship to the dutch original work and instance in a more conventional form below)
+	bf:title [bf:Title; bf:mainTitle "Psychische stoornissen, gedragsproblemen en verstandelijke handicap. Een integratieve benadering voor kinderen en volwassenen"@nl]; 
 	bf:content rdaco:1020 ;
-	bf:language lang:de ;
+	bf:language languages:ger ;
 	bf:contribution [...] ;
 	bf:summary [...] ;
+	bf:tableOfContents [
+		a bf:TableOfContents;
+		rdf:value "https://d-nb.info/1002790794/04"^^xsd:anyURI ; # URL of pdf ToC as scanned by DNB, or, if not available, transcribed in the label:
+		rdfs:label "(1) Übersicht zu aktuellen Auffassungen über psychische [...]. (2) Erklärung von Begriffen. (3) Psychiatrische [...] SEO-Interviewleitfaden zum emotionalen Entwicklungsstand; Skala für entwicklungspsychiatrische Diagnostik (SOPD); SOPD-Auswertungsbogen; Verhaltensauffälligkeiten bei unterschiedlichen Entwicklungsniveaus";
+	];
 	bf:genreForm genres:Handbook;
 	bf:hasInstance instance:0229046 ;
+	# relationship to its original Dutch version:
+	# see also: https://guides.loc.gov/c.php?g=1170551&p=8704264&preview=003264c97f504caf990125066b248e24
 	bflc:relationship [
 		a bflc:Relationship;
 		bflc:relation relations:hasTranslation;
 		bf:translationOf 
 		[
 			a bf:Work;
-			bf:language lang:nl; 
+			bf:language languages:dut; 
 			bf:hasInstance 
 			[
 				bf:title 
@@ -47,11 +65,12 @@ work:0229046 a bf:Work , bf:Text ;
 				];
 			];
 		];
+	]
 .
 
-# These are the infos about the German translation's published print instance
+# These are the infos about the German translation's published print instance; we don't have a digital instance on file.
 instance:0229046 a bf:Instance ;
-	pxp:issuanceType issuances:AuthoredBook;
+	pxp:issuanceType issuances:AuthoredBook;  
 	pxp:mediaCarrier pmt:Print;
 	bf:title 
 	[
@@ -63,31 +82,55 @@ instance:0229046 a bf:Instance ;
 	[
 		a bf:Title, pxc:TranslatedTitle;
 		rdfs:label "Mental disorders and behavior problems in persons with intellectual handicap. An integrative approach for children and adults"@en;
-		bf:varianttype "translated";
+		bf:variantType "translated";
+	];
+	# if the book was part of a book series, we could also have:
+	# a transcribed, literal series statement including volume number (as it is currently contained in field SE)
+	bf:seriesStatement "Forum der psychoanalytischen Psychosentherapie, Band 3";
+	# and a relationship to the series as a bnode, to group series title and volume number
+	# (so a book can be part of more than one series, and the volume in each series is attached to the approapriate series) 
+	# while still separating them semantically in two properties:
+	bflc:relationship 
+	[ 
+		a bflc:Relationship;
+		bf:hasSeries [ # part-of relationships are between instances, so relating to series _instance_:
+			a bf:Instance;
+			bf:title [ a bf:Title; bf:mainTitle "Forum der psychoanalytischen Psychosentherapie"];
+			# we don't index the series itself - so no local identifiers and no work except to say that 
+			# the work is of subclass series and it is uncontrolled/not indexed.
+			bf:instanceOf [a bf:Series, bflc:Uncontrolled];
+		];
+		# volume in series belongs into the relationship, not the series instance:
+		# based on https://github.com/lcnetdev/bibframe-ontology/issues/100
+		bf:seriesEnumeration "Band 3";
 	];
 	bf:identifiedBy 
 	[
 		a bf:Identifier, bf:Isbn;
 		rdf:value "978-3-8017-2155-8";
 	];
+	# if the book had an edition statement (like its dutch original), it would look like this:
+	bf:editionStatement "2., überarb. Aufl.";
 	bf:provisionActivity 
 	[
 		a bf:Publication;
+		# simple literal versions (as they used to be before authority linkage)
 		bflc:simpleDate "2010";
-		bf:date "2010"^^xsd:gYear;
 		bflc:simplePlace "Göttingen";
+		bflc:simpleAgent "Hogrefe";
+		# more complex pub infos with authority links/ids:
+		bf:date "2010"^^xsd:gYear;
 		bf:place 
 		[
 			a bf:Place;
 			rdfs:label "Göttingen";
 			bf:identifiedBy [a bf:Identifier, locid:geonames; rdf:value "2918632"; ];
 		];
-		bflc:simpleAgent "Hogrefe";
 		bf:agent 
 		[
 			a bf:Organization;
 			rdfs:label "Hogrefe";
-			bf:identifiedBy [a bf:Local, pxc:ZpidCorporateBodyId; rdf:value "0000001"; ];
+			bf:identifiedBy [a bf:Local, pxc:ZpidCorporateBodyId; rdf:value "0000111"; ];
 		];
 	];
 .
