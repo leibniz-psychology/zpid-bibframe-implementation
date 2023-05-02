@@ -18,7 +18,8 @@
 
 <https://w3id.org/zpid/ontology/properties>
    rdf:type owl:Ontology ; #voaf:Vocabulary ;
-   vann:preferredNamespacePrefix "pxp" ;vann:preferredNamespaceUri "https://w3id.org/zpid/ontology/properties/" ;
+   vann:preferredNamespacePrefix "pxp" ;
+   vann:preferredNamespaceUri "https://w3id.org/zpid/ontology/properties/" ;
    dct:title "ZPID/PSYNDEX properties" ;
    #dct:license <...> ;
    dct:description "New properties that we need to define because there aren't any in BIBFRAME and related we can reuse"@en ;
@@ -31,7 +32,8 @@
 
 <https://w3id.org/zpid/ontology/classes>
    rdf:type owl:Ontology ; #voaf:Vocabulary ;
-   vann:preferredNamespacePrefix "pxc" ;vann:preferredNamespaceUri "https://w3id.org/zpid/ontology/classes/" ;
+   vann:preferredNamespacePrefix "pxc" ;
+   vann:preferredNamespaceUri "https://w3id.org/zpid/ontology/classes/" ;
    dct:title "ZPID/PSYNDEX classes" ;
    #dct:license <...> ;
    dct:description "New classes that we need to define because there aren't any in BIBFRAME and related we can reuse"@en ;
