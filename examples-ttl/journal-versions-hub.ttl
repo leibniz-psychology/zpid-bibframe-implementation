@@ -3,6 +3,7 @@
 @prefix bf: <http://id.loc.gov/ontologies/bibframe/> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdau: <http://rdaregistry.info/Elements/u/>; 
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix datatypes: <http://id.loc.gov/datatypes/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#>.
@@ -32,7 +33,16 @@
     bf:identifiedBy <JournalHub#IssnL>; # link to hashed IssnL bnode of Hub
     bf:expressionOf <JournalHub>; # link back to the Hub
     bf:hasInstance <InstanceOnlineJournal>;
+    bf:content <http://id.loc.gov/vocabulary/contentTypes/txt>;
+    rdau:P61097 <http://rdaregistry.info/termList/RDAExtensionPlan/1005>; # "has extension plan": successive indeterminate 
+    bf:frequency <http://rdaregistry.info/termList/frequency/1008>; # "monthly"
 .
+
+<InstanceOnlineJournal> a bf:Instance, bf:Electronic ;
+        bf:media <http://rdaregistry.info/termList/RDAMediaType/1003>; # computer
+        bf:carrier <http://rdaregistry.info/termList/RDACarrierType/1018>; # online resource
+.
+
 
 <WorkPrintJournal> a bf:Work, bf:Serial, bf:Text;
     bf:title [a bf:KeyTitle; bf:mainTitle "Journal of experimental psychology"; 
@@ -44,6 +54,11 @@
     bf:expressionOf <JournalHub>; # link back to the Hub
     bf:hasInstance <InstancePrintJournal>;
     bf:content <http://id.loc.gov/vocabulary/contentTypes/txt>;
-    rdau:P61097 <http://rdaregistry.info/termList/RDAExtensionPlan/1005>; # "has extension plan": successive indeterminate plan
+    rdau:P61097 <http://rdaregistry.info/termList/RDAExtensionPlan/1005>; # "has extension plan": successive indeterminate 
     bf:frequency <http://rdaregistry.info/termList/frequency/1008>; # "monthly"
+.
+
+<InstancePrintJournal> a bf:Instance, bf:Print ;
+    bf:media <http://rdaregistry.info/termList/RDAMediaType/1007>; # unmediated
+    bf:carrier <http://rdaregistry.info/termList/RDACarrierType/1049>; # volume
 .
