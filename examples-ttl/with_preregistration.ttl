@@ -1,0 +1,55 @@
+@prefix mads: <http://www.loc.gov/mads/rdf/v1#> .
+@prefix bflc: <http://id.loc.gov/ontologies/bflc/> .
+@prefix bf: <http://id.loc.gov/ontologies/bibframe/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix datatypes: <http://id.loc.gov/datatypes/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+@prefix schema: <https://schema.org/> .
+@prefix pxp: <https://w3id.org/zpid/properties/> .
+@prefix pxc: <https://w3id.org/zpid/classes/> .
+@prefix relations: <https://w3id.org/zpid/vocabs/relations/> .
+@prefix content: <https://w3id.org/zpid/vocabs/contenttypes/> .
+@prefix genres: <https://w3id.org/zpid/vocabs/genres> .
+@prefix languages: <http://id.loc.gov/vocabulary/languages/> .
+
+# Studies described in Works _may_ have one or more related Works on file that
+# are preregistrations of that study. 
+# They are attached to the work via a bflc:Relationship node,
+# the Relationship is qualified with a bflc:relation "has preregistration"
+# The preregistration document itself is linked in the bflc:Relationship 
+# via bf:supplement as a Work blank node of bf:genreForm preregistration,
+# whose Instance (also a blank node) can have either a URL (bf:electronicLocator),
+# a DOI (bf:identifiedBy > bf:Doi) or both.
+# The bflc:Relationship blank node can be further qualified with one bf:note > bf:Note
+# that has further info about the specific linked preregistration work.
+
+# The example below has two preregistration documents, both with a note and both with a url and a DOI.
+
+works:0388375 a bf:Work ;
+    bflc:relationship [ a bflc:Relationship ;
+        bflc:relation relations:hasPreregistration ; 
+        bf:note [ a bf:Note ; rdfs:label "first preregistration" ] ; # optional note on the preregistration
+        bf:supplement [ a bf:Work, bf:Text ;
+            # bf:content contenttypes:text ;
+            bf:genreForm genres:preregistration ;
+            bf:hasInstance [ a bf:Instance ;
+                # bf:media <http://rdvocab.info/termList/RDAMediaType/1003> ;
+                # bf:carrier <http://rdvocab.info/termList/RDACarrierType/1018> ;
+                bf:electronicLocator <https://osf.io/5r3yp> ;
+                bf:identifiedBy [ a bf:Doi, bf:Identifier ; rdf:value "10.17605/OSF.IO/5R3YP" ] ;
+                schema:sameAs <https://doi.org/10.17605/OSF.IO/5R3YP> ] ] ],
+    [ a bflc:Relationship ;
+        bflc:relation relations:hasPreregistration ;
+        bf:note [ a bf:Note ; rdfs:label "amended preregistration" ] ;
+        bf:supplement [ a bf:Work, bf:Text ;
+            # bf:content contenttypes:text ;
+            bf:genreForm genres:preregistration ;
+            bf:hasInstance [ a bf:Instance ;
+                # bf:media <http://rdvocab.info/termList/RDAMediaType/1003> ;
+                # bf:carrier <http://rdvocab.info/termList/RDACarrierType/1018> ;
+                bf:electronicLocator <https://osf.io/98w3h> ;
+                bf:identifiedBy [ a bf:Doi, bf:Identifier ; rdf:value "10.17605/OSF.IO/98W3H" ] ;
+                schema:sameAs <https://doi.org/10.17605/OSF.IO/98W3H> ] ] ] ;
+.
