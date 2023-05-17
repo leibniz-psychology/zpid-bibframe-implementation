@@ -9,9 +9,10 @@
 @prefix schema: <https://schema.org/> .
 @prefix pxp: <https://w3id.org/zpid/properties/> .
 @prefix pxc: <https://w3id.org/zpid/classes/> .
-@prefix relations: <https://w3id.org/zpid/vocabs/relations> .
-@prefix content: <https://w3id.org/zpid/vocabs/contenttypes> .
+@prefix relations: <https://w3id.org/zpid/vocabs/relations/> .
+@prefix content: <https://w3id.org/zpid/vocabs/contenttypes/> .
 @prefix genres: <https://w3id.org/zpid/vocabs/genres> .
+@prefix languages: <http://id.loc.gov/vocabulary/languages/> .
 
 ## hat data und code in 2 separaten Supplements:
 <https://w3id.org/zpid/pub/work/0001> a bf:Work; 
