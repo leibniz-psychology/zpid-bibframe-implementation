@@ -1,0 +1,37 @@
+<Work> a bf:Work ;
+    bflc:relationship [ a bflc:Relationship ;
+        bflc:relation relations:hasComment ;
+
+        # the basic bibframe relation and its target, the comment work:
+        bf:references [ a bf:Work ;
+            bf:hasInstance [ a bf:Instance ;
+                bf:identifiedBy [ a bf:Identifier , bf:Doi;
+                    rdf:value "10.12345CommentOnWork" ;
+                ] ;
+                # could also have a bf:identifiedBy pxc:DFK, or a 
+                # bf:electronicLocator with a URL, or if neither are available, 
+                # a bf:preferredCitation string.
+            ] ;
+
+        ]
+    ]
+.
+
+# a reply:
+
+<Work> a bf:Work ;
+    bflc:relationship [ a bflc:Relationship ;
+        bflc:relation relations:hasReply ;
+        # the basic bibframe relation and its target, the reply work:
+        bf:references [ a bf:Work ;
+            bf:hasInstance [ a bf:Instance ;
+                bf:identifiedBy [ a bf:Identifier , bf:Doi;
+                    rdf:value "10.12345ReplyOnCommentWork" ;
+                ] ;
+                # could also have a bf:identifiedBy pxc:DFK, or a 
+                # bf:electronicLocator with a URL, or if neither are available, 
+                # a bf:preferredCitation string.
+            ] ;
+        ]
+    ]
+.
