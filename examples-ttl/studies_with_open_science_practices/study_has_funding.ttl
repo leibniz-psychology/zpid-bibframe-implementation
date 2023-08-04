@@ -1,0 +1,33 @@
+@prefix mads: <http://www.loc.gov/mads/rdf/v1#> .
+@prefix bflc: <http://id.loc.gov/ontologies/bflc/> .
+@prefix bf: <http://id.loc.gov/ontologies/bibframe/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix datatypes: <http://id.loc.gov/datatypes/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+@prefix schema: <https://schema.org/> .
+@prefix pxp: <https://w3id.org/zpid/properties/> .
+@prefix pxc: <https://w3id.org/zpid/classes/> .
+@prefix pmt: <https://w3id.org/zpid/vocabs/psyndex-mediatypes/> . 
+@prefix pit: <https://w3id.org/zpid/vocabs/psyndex-issuancetypes/> .
+@prefix genres: <https://w3id.org/zpid/vocabs/genres> .
+@prefix languages: <http://id.loc.gov/vocabulary/languages/> .
+@prefix works: <https://w3id.org/zpid/resources/works/> .
+@prefix instances: <https://w3id.org/zpid/resources/instances/> .
+
+works:123456 a bf:Work ;
+    bf:contribution 
+    [
+        a pxc:FundingReference ;
+        bf:agent [
+            a bf:Agent ;
+            rdfs:label "JSPS KAKENHI" ; 
+            bf:identifiedBy [ a bf:Doi, pxc:FundRefDoi; rdf:value "10.13039/501100001691" ]; 
+        ] ;
+        bf:role <http://id.loc.gov/vocabulary/relators/spn> ; 
+        pxp:grant [ a pxc:Grant ; bf:identifiedBy [a pxc:GrantID ; rdf:value "15K00871" ] ] ;
+        pxp:grant [ a pxc:Grant; bf:identifiedBy [ a pxc:GrantID ; rdf:value "18KK0055" ] ] ;
+        bf:note [a <http://id.loc.gov/vocabulary/mnotetype/fundinfo>; rdfs:label "Info: Open access funding. Recipient(s): Law, Kiely"] ; 
+    ] 
+.
