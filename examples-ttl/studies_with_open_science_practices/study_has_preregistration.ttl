@@ -19,37 +19,29 @@
 # They are attached to the work via a bflc:Relationship node,
 # the Relationship is qualified with a bflc:relation "has preregistration"
 # The preregistration document itself is linked in the bflc:Relationship 
-# via bf:supplement as a Work blank node of bf:genreForm preregistration,
+# via bf:accompaniedBy as a Work blank node of bf:genreForm preregistration,
 # whose Instance (also a blank node) can have either a URL (bf:electronicLocator),
 # a DOI (bf:identifiedBy > bf:Doi) or both.
-# The bflc:Relationship blank node can be further qualified with one bf:note > bf:Note
-# that has further info about the specific linked preregistration work.
 
-# The example below has two preregistration documents, both with a note and both with a url and a DOI.
+# The example work below has two preregistrations: one is a clinical trial with a trialnumber identifier that also has a source (the registry as a skos concept) and the other is a preregistration document with a url and a DOI.
 
 works:0388375 a bf:Work ;
     bflc:relationship [ a bflc:Relationship ;
         bflc:relation relations:hasPreregistration ; 
-        bf:note [ a bf:Note ; rdfs:label "first preregistration" ] ; # optional note on the preregistration
-        bf:supplement [ a bf:Work, bf:Text ;
-            # bf:content contenttypes:text ;
-            bf:genreForm genres:preregistration ;
+        bf:accompaniedBy [ a bf:Work, bf:Text ;
             bf:hasInstance [ a bf:Instance ;
-                # bf:media <http://rdvocab.info/termList/RDAMediaType/1003> ;
-                # bf:carrier <http://rdvocab.info/termList/RDACarrierType/1018> ;
-                bf:electronicLocator <https://osf.io/5r3yp> ;
-                bf:identifiedBy [ a bf:Doi, bf:Identifier ; rdf:value "10.17605/OSF.IO/5R3YP" ] ;
-                schema:sameAs <https://doi.org/10.17605/OSF.IO/5R3YP> ] ] ],
+                # This one has a trial number and states the registry where the number was registered
+                bf:identifiedBy [a pxc:TrialNumber ; rdf:value "NCT03353472" ; bf:source <https://w3id.org/zpid/vocabs/trialregs/clinical-trials-gov>] ;
+            ] ;
+        ] 
+    ];
     [ a bflc:Relationship ;
         bflc:relation relations:hasPreregistration ;
-        bf:note [ a bf:Note ; rdfs:label "amended preregistration" ] ;
-        bf:supplement [ a bf:Work, bf:Text ;
-            # bf:content contenttypes:text ;
-            bf:genreForm genres:preregistration ;
+        bf:accompaniedBy [ a bf:Work, bf:Text ;
             bf:hasInstance [ a bf:Instance ;
-                # bf:media <http://rdvocab.info/termList/RDAMediaType/1003> ;
-                # bf:carrier <http://rdvocab.info/termList/RDACarrierType/1018> ;
-                bf:electronicLocator <https://osf.io/98w3h> ;
+                bf:electronicLocator [ rdf:value "https://osf.io/98w3h"^^xsd:anyURI] ; 
                 bf:identifiedBy [ a bf:Doi, bf:Identifier ; rdf:value "10.17605/OSF.IO/98W3H" ] ;
-                schema:sameAs <https://doi.org/10.17605/OSF.IO/98W3H> ] ] ] ;
+            ] ;
+        ] ;
+    ] ;
 .

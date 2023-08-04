@@ -1,0 +1,60 @@
+@prefix mads: <http://www.loc.gov/mads/rdf/v1#> .
+@prefix bflc: <http://id.loc.gov/ontologies/bflc/> .
+@prefix bf: <http://id.loc.gov/ontologies/bibframe/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix datatypes: <http://id.loc.gov/datatypes/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+@prefix schema: <https://schema.org/> .
+@prefix pxp: <https://w3id.org/zpid/properties/> .
+@prefix pxc: <https://w3id.org/zpid/classes/> .
+@prefix relations: <https://w3id.org/zpid/vocabs/relations/> .
+@prefix content: <https://w3id.org/zpid/vocabs/contenttypes/> .
+@prefix genres: <https://w3id.org/zpid/vocabs/genres> .
+@prefix languages: <http://id.loc.gov/vocabulary/languages/> .
+
+## has data und code in 2 separate supplements:
+<https://w3id.org/zpid/pub/work/0001> a bf:Work; 
+    bflc:relationship 
+    [
+        a bflc:Relationship;
+        bflc:relation relations:hasResearchData;
+        bf:supplement
+        [
+            a bf:Work, bf:Dataset; 
+            # bf:genreForm genres:researchData; bf:content contenttypes:cod;
+            bf:hasInstance 
+            [
+                a bf:Instance, bf:Electronic;
+                bf:electronicLocator [ rdf:value "https://osf.io/data001"^^xsd:anyURI ];] ;
+                bf:identifier [a bf:Identifier, bf:Doi; rdf:value "10.123data001"]
+                bf:usageAndAccessPolicy [ a bf:AccessPolicy ;
+                                    rdfs:label "open access"@en ;
+                                    rdf:value "http://purl.org/coar/access_right/c_abf2"^^xsd:anyURI ]
+            ] ;
+    ],
+    [ # relationship to code for analyzing the data, or other software needed to reproduce the results
+        a bflc:Relationship;
+        bflc:relation relations:hasAnalyticCode;
+        bf:supplement
+        [
+            a bf:Work, bf:Multimedia; 
+            # bf:genreform genres:analyticCode; bf:content content:cop;
+                bf:hasInstance 
+                [
+                    a bf:Instance;
+                    bf:electronicLocator [ rdf:value "https://osf.io/code001"^^xsd:anyURI ];
+                    bf:identifier [a bf:Identifier, bf:Doi; rdf:value "10.123code001"]
+                    # add bf:media "computer" from rda media types
+                    # bf:media <http://rdvocab.info/termList/RDAMediaType/1003>;
+                    # bf:carrier "online resource" from rda vocabulary
+                    # bf:carrier <http://rdvocab.info/termList/RDACarrierType/1018>;
+                    # add combined custom pxp:mediaType
+                    # pxp:mediaType mediatypes:OnlineResource;
+                ] ;
+            ] ;
+    ] ;
+.
+
+# if data AND code are behind the same link -> we add another relationshop to the same work (with the same electronicLocator and/or doi for its instance).
